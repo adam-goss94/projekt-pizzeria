@@ -78,7 +78,7 @@
 
     getElements(){
       const thisProduct = this;
-    
+
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
@@ -87,7 +87,7 @@
     }
 
     initAccordion(){
-      const thisProduct = this;      
+      const thisProduct = this;
 
       thisProduct.accordionTrigger.addEventListener('click', function(event){
         event.preventDefault();
@@ -99,7 +99,7 @@
             activeProduct.classList.remove('active');
           }
         }
-      });       
+      });
     }
 
     initOrderForm(){
@@ -109,13 +109,13 @@
         event.preventDefault();
         thisProduct.processOrder();
       });
-      
+
       for(let input of thisProduct.formInputs){
         input.addEventListener('change', function(){
           thisProduct.processOrder();
         });
       }
-      
+
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
@@ -125,7 +125,7 @@
     processOrder(){
       const thisProduct = this;
       const formData = utils.serializeFormToObject(thisProduct.form);
-      let price = thisProduct.data.price;      
+      let price = thisProduct.data.price;
 
       for(let paramId in thisProduct.data.params){
         const param = thisProduct.data.params[paramId];
@@ -135,7 +135,7 @@
           const option = param.options[optionId];
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
 
-          if(optionSelected && !option.default){          
+          if(optionSelected && !option.default){
             price += option.price;
           }else if(!optionSelected && option.default){
             price -= option.price;
@@ -155,16 +155,16 @@
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
       }
-    }, 
+    },
 
     initData: function(){
       const thisApp = this;
       thisApp.data = dataSource;
     },
-    
+
     init: function(){
       const thisApp = this;
-/*       console.log('*** App starting ***');
+      /*console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
