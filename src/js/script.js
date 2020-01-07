@@ -32,7 +32,7 @@
       },
     },
   };
-
+  
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
@@ -40,6 +40,7 @@
     },
   };
 
+  // eslint-disable-next-line no-unused-vars
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -47,6 +48,7 @@
       defaultMax: 9,
     }
   };
+
 
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
@@ -84,6 +86,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -139,6 +142,18 @@
             price += option.price;
           }else if(!optionSelected && option.default){
             price -= option.price;
+          }
+          
+          const images = thisProduct.imageWrapper.querySelectorAll('.'+paramId+'-'+optionId);
+
+          if(optionSelected){
+            for(let image of images){
+              image.classList.add(classNames.menuProduct.imageVisible);
+            }
+          }else{
+            for(let image of images){
+              image.classList.remove(classNames.menuProduct.imageVisible);
+            }
           }
         }
       }
