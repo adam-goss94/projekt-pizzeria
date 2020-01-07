@@ -60,6 +60,7 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
 
       console.log('new Product:', thisProduct);
@@ -75,11 +76,20 @@
       menuContainer.appendChild(thisProduct.element);
     }
 
-    initAccordion(){
+    getElements(){
       const thisProduct = this;
-      const productClicked = thisProduct.element.querySelector(select.menuProduct.clickable);
+    
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
 
-      productClicked.addEventListener('click', function(event){
+    initAccordion(){
+      const thisProduct = this;      
+
+      thisProduct.accordionTrigger.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.element.classList.toggle('active');
         const activeProducts = document.querySelectorAll('.product.active');
