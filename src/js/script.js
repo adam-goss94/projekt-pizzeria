@@ -62,8 +62,8 @@
       thisProduct.renderInMenu();
       thisProduct.getElements();
       thisProduct.initAccordion();
-
-      console.log('new Product:', thisProduct);
+      thisProduct.initOrderForm();
+      thisProduct.processOrder();
     }
 
     renderInMenu(){
@@ -99,8 +99,50 @@
             activeProduct.classList.remove('active');
           }
         }
+      });       
+    }
+
+    initOrderForm(){
+      const thisProduct = this;
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
       });
-       
+      
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.processOrder();
+        });
+      }
+      
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.processOrder();
+      });
+    }
+
+    processOrder(){
+      const thisProduct = this;
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      let price = thisProduct.data.price;      
+
+      for(let paramId in thisProduct.data.params){
+        const param = thisProduct.data.params[paramId];
+
+        for(let optionId in param.options){
+
+          const option = param.options[optionId];
+          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
+
+          if(optionSelected && !option.default){          
+            price += option.price;
+          }else if(!optionSelected && option.default){
+            price -= option.price;
+          }
+        }
+      }
+      thisProduct.priceElem.textContent = price;
     }
   }
 
@@ -108,7 +150,7 @@
     initMenu: function(){
 
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      /* console.log('thisApp.data:', thisApp.data); */
 
       for(let productData in thisApp.data.products){
         new Product(productData, thisApp.data.products[productData]);
@@ -122,11 +164,11 @@
     
     init: function(){
       const thisApp = this;
-      console.log('*** App starting ***');
+/*       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
-      console.log('templates:', templates);
+      console.log('templates:', templates); */
       thisApp.initData();
       thisApp.initMenu();
     },
