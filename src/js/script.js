@@ -40,7 +40,6 @@
     },
   };
 
-  // eslint-disable-next-line no-unused-vars
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -198,7 +197,7 @@
       const thisWidget = this;
 
       const newValue = parseInt(value);
-      
+
       if(newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax){
         
         thisWidget.value = newValue;
