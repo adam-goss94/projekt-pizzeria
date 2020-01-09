@@ -59,7 +59,7 @@ dataSource.products = {
         label: 'Toppings',
         type: 'checkboxes',
         options: {
-          olives: {label: 'Olives', price: 2, default: true},
+          olivess: {label: 'Olives', price: 2, default: true},
           redPeppers: {label: 'Red peppers', price: 2, default: true},
           greenPeppers: {label: 'Green peppers', price: 2, default: true},
           mushrooms: {label: 'Mushrooms', price: 2, default: true},
