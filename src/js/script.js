@@ -197,7 +197,7 @@
 
       thisProduct.priceSingle = price;
       thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
-      thisProduct.priceElem.textContent = price;
+      thisProduct.priceElem.textContent = thisProduct.price;
     }
 
     initAmountWidget(){
