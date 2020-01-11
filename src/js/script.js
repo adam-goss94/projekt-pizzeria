@@ -346,8 +346,6 @@
       }
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
 
-      console.log(thisCart.totalNumber, thisCart.subtotalPrice, thisCart.totalPrice);
-
       for(let key of thisCart.renderTotalsKeys){
         for(let elem of thisCart.dom[key]){
           elem.innerHTML = thisCart[key];
