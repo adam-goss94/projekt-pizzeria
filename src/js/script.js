@@ -347,9 +347,9 @@
       
       thisCart.dom.productList.appendChild(generatedDOM);
 
-      //console.log('Adding product: ', menuProduct);
+      
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-      //console.log('products added: ', thisCart.products);
+      
       thisCart.update();
     }
 
@@ -503,7 +503,7 @@
     initMenu: function(){
 
       const thisApp = this;
-      /* console.log('thisApp.data:', thisApp.data); */
+      
 
       for(let productData in thisApp.data.products){
         new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
@@ -519,14 +519,11 @@
         .then(function(rawResponse){
           return rawResponse.json();
         })
-        .then(function(parsedResponse){
-          //console.log('parsedResponse: ', parsedResponse);
+        .then(function(parsedResponse){          
           thisApp.data.products = parsedResponse;
           thisApp.initMenu();
 
         });
-
-      //console.log('thisApp.data: ', JSON.stringify(thisApp.data));
     },
 
     initCart: function(){
