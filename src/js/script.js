@@ -410,9 +410,15 @@
 
       fetch(url, options)
         .then(function (response){
-          return response.json();
+          if(response.status >= 200 && response.status < 300){
+            return response.json();
+          }else{
+            return Promise.reject(response.status + ' ' + response.statusText);
+          }
         }).then(function(parsedResponse){
           console.log('parsedResponse: ', parsedResponse);
+        }).catch(function(error){
+          console.log('CONNECTION ERROR', error);
         });
     }
   }
@@ -517,12 +523,16 @@
 
       fetch(url)
         .then(function(rawResponse){
-          return rawResponse.json();
-        })
-        .then(function(parsedResponse){
+          if(rawResponse.status >= 200 && rawResponse.status < 300){
+            return rawResponse.json();
+          }else{
+            return Promise.reject(rawResponse.status + ' ' + rawResponse.statusText);
+          }
+        }).then(function(parsedResponse){
           thisApp.data.products = parsedResponse;
           thisApp.initMenu();
-
+        }).catch(function(error){
+          console.log('CONNECTION ERROR', error);
         });
     },
 
