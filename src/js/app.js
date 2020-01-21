@@ -2,7 +2,7 @@ import {settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
-'use strict';
+
 const app = {
   initPages: function(){
     const thisApp = this;
