@@ -35,7 +35,14 @@ class DatePicker extends BaseWidget{
         'firstDayOfWeek': 1
       },
       onChange: function(dateStr){
-        thisWidget.value = dateStr;
+        function convert(str) {
+          const date = new Date(str),
+            mnth = ('0' + (date.getMonth() + 1)).slice(-2),
+            day = ('0' + date.getDate()).slice(-2);
+          return [date.getFullYear(), mnth, day].join('-');
+        }
+        
+        thisWidget.value = convert(dateStr);
       },
     });
   }
@@ -52,6 +59,15 @@ class DatePicker extends BaseWidget{
 
   }
   
+  announce(){
+    const thisWidget = this;
+
+    const event = new CustomEvent('changeTime', {
+      bubbles: true
+    });
+
+    thisWidget.dom.wrapper.dispatchEvent(event);
+  }
 }
 
 export default DatePicker;

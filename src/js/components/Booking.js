@@ -93,9 +93,6 @@ class Booking{
         }
       }
     }
-
-    console.log('thisBooking.booked: ', thisBooking.booked);
-
     thisBooking.updateDOM();
   }
 
@@ -164,7 +161,11 @@ class Booking{
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
+    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);   
+    thisBooking.dom.formSubmit = thisBooking.dom.wrapper.querySelector(select.booking.submit);
+    thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.phone);
+    thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.address);
+    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters); 
   }
 
   initWidgets(){
@@ -175,10 +176,92 @@ class Booking{
 
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
-
+    
     thisBooking.dom.wrapper.addEventListener('updated', function(){
-      thisBooking.updateDOM();
+      thisBooking.updateDOM();      
+    });   
+
+    thisBooking.dom.wrapper.addEventListener('changeTime', function(){
+      /* Remove selected class from tables when change data */      
+      for(let table of thisBooking.dom.tables){
+        table.classList.remove(classNames.booking.tableSelected);
+      }
+      thisBooking.updateDOM();    
     });
+
+    /* Add event listener to clicked tables */
+    for(let table of thisBooking.dom.tables){
+      table.addEventListener('click', function(){
+        if(this.classList.contains(classNames.booking.tableSelected)){
+          this.classList.remove(classNames.booking.tableSelected);
+        }else{          
+          if(!this.classList.contains(classNames.booking.tableBooked)){
+            for(let tab of thisBooking.dom.tables){
+              tab.classList.remove(classNames.booking.tableSelected);
+            }
+            this.classList.add(classNames.booking.tableSelected);
+          }
+        }
+      });
+    }
+    
+    /* Add even listener to submit button */ 
+    thisBooking.dom.formSubmit.addEventListener('click', function(event){
+      event.preventDefault();
+      thisBooking.bookTable();
+    });
+    
+  }
+  
+  bookTable(){
+    const thisBooking = this;
+    const url = settings.db.url + '/' + settings.db.booking;
+    
+    const payload = {
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: [],
+      duration: thisBooking.hoursAmount.value,
+      ppl: thisBooking.peopleAmount.value,
+      starters: [],
+      address: thisBooking.dom.address.value,
+      phone: thisBooking.dom.phone.value,
+    };
+
+    for(let tab of thisBooking.dom.tables){
+      if(tab.classList.contains(classNames.booking.tableSelected)){
+        payload.table.push(tab.getAttribute('data-table'));
+      }
+    }
+
+    for(let starter of thisBooking.dom.starters){
+      if (starter.checked == true){
+        payload.starters.push(starter.value);
+      }
+    }
+    // eslint-disable-next-line no-unused-vars
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(url, options)
+      .then(function (response){
+        if(response.status >= 200 && response.status < 300){
+          return response.json();
+        }else{
+          return Promise.reject(response.status + ' ' + response.statusText);
+        }
+      }).then(function(parsedResponse){
+        console.log('parsedResponse: ', parsedResponse);
+      }).catch(function(error){
+        console.log('CONNECTION ERROR', error);
+      });
+
+    thisBooking.getData();
   }
 
 }
