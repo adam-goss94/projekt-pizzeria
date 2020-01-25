@@ -11,11 +11,12 @@ class Booking{
     thisBooking.render(bookingElem);
     thisBooking.initWidgets();
     thisBooking.getData();
+    
   }
 
   getData(){
     const thisBooking = this;
-    'use strict';
+
     const startDateParam = settings.db.dateStartParamKey + '=' + utils.dateToStr(thisBooking.datePicker.minDate);
     const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate);
 
@@ -93,6 +94,7 @@ class Booking{
         }
       }
     }
+    console.log('thisBookin.booked: ', thisBooking.booked);
     thisBooking.updateDOM();
   }
 
@@ -181,11 +183,11 @@ class Booking{
       thisBooking.updateDOM();      
     });   
 
-    thisBooking.dom.wrapper.addEventListener('changeTime', function(){
+    thisBooking.dom.wrapper.addEventListener('changeTime', function(){    
       /* Remove selected class from tables when change data */      
       for(let table of thisBooking.dom.tables){
         table.classList.remove(classNames.booking.tableSelected);
-      }
+      }  
       thisBooking.updateDOM();    
     });
 
@@ -208,7 +210,18 @@ class Booking{
     /* Add even listener to submit button */ 
     thisBooking.dom.formSubmit.addEventListener('click', function(event){
       event.preventDefault();
-      thisBooking.bookTable();
+      for(let table of thisBooking.dom.tables){
+        if(table.classList.contains(classNames.booking.tableSelected)){
+          thisBooking.bookTable();
+          thisBooking.peopleAmount.value = settings.amountWidget.defaultValue;
+          thisBooking.hoursAmount.value = settings.amountWidget.defaultValue;
+          thisBooking.dom.home.value = '';
+          thisBooking.dom.address.value = '';
+          break;
+        }
+      }
+      
+      
     });
     
   }
@@ -220,7 +233,7 @@ class Booking{
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: [],
+      table: '',
       duration: thisBooking.hoursAmount.value,
       ppl: thisBooking.peopleAmount.value,
       starters: [],
@@ -230,7 +243,15 @@ class Booking{
 
     for(let tab of thisBooking.dom.tables){
       if(tab.classList.contains(classNames.booking.tableSelected)){
-        payload.table.push(tab.getAttribute('data-table'));
+        let tabId = tab.getAttribute('data-table');
+        
+        if(!isNaN(tabId)){
+          tabId = parseInt(tabId);
+        }
+        
+        payload.table = tabId;
+        tab.classList.add(classNames.booking.tableBooked);
+        tab.classList.toggle(classNames.booking.tableSelected);        
       }
     }
 
@@ -257,11 +278,15 @@ class Booking{
         }
       }).then(function(parsedResponse){
         console.log('parsedResponse: ', parsedResponse);
+        thisBooking.getData();
+        
+        
       }).catch(function(error){
         console.log('CONNECTION ERROR', error);
       });
 
-    thisBooking.getData();
+    
+    
   }
 
 }
