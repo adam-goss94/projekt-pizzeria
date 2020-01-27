@@ -111,8 +111,11 @@ class Booking{
       if(typeof thisBooking.booked[date][hourBlock] == 'undefined'){
         thisBooking.booked[date][hourBlock] = [];
       }
-  
-      thisBooking.booked[date][hourBlock].push(table);
+      
+      for(let tab of table){
+        thisBooking.booked[date][hourBlock].push(tab);
+      }
+      
     }
   }
 
@@ -198,9 +201,6 @@ class Booking{
           this.classList.remove(classNames.booking.tableSelected);
         }else{          
           if(!this.classList.contains(classNames.booking.tableBooked)){
-            for(let tab of thisBooking.dom.tables){
-              tab.classList.remove(classNames.booking.tableSelected);
-            }
             this.classList.add(classNames.booking.tableSelected);
           }
         }
@@ -215,7 +215,7 @@ class Booking{
           thisBooking.bookTable();
           thisBooking.peopleAmount.value = settings.amountWidget.defaultValue;
           thisBooking.hoursAmount.value = settings.amountWidget.defaultValue;
-          thisBooking.dom.home.value = '';
+          thisBooking.dom.phone.value = '';
           thisBooking.dom.address.value = '';
           break;
         }
@@ -233,7 +233,7 @@ class Booking{
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: '',
+      table: [],
       duration: thisBooking.hoursAmount.value,
       ppl: thisBooking.peopleAmount.value,
       starters: [],
@@ -249,7 +249,7 @@ class Booking{
           tabId = parseInt(tabId);
         }
         
-        payload.table = tabId;
+        payload.table.push(tabId);
         tab.classList.add(classNames.booking.tableBooked);
         tab.classList.toggle(classNames.booking.tableSelected);        
       }
@@ -276,8 +276,9 @@ class Booking{
         }else{
           return Promise.reject(response.status + ' ' + response.statusText);
         }
+      // eslint-disable-next-line no-unused-vars
       }).then(function(parsedResponse){
-        console.log('parsedResponse: ', parsedResponse);
+        //console.log('parsedResponse: ', parsedResponse);
         thisBooking.getData();
         
         
