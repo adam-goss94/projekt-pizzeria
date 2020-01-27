@@ -1,0 +1,169 @@
+.home-wrapper {
+  margin: ($base-size * 3.5) auto;
+  padding: ($base-size * 6) ($base-size * 4);
+  background: $color-light;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+
+.box-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+    
+  .box {
+    min-height: 120px;
+    border-radius: 10px;
+    margin: 0 5px;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+
+    &-title{
+      @include center();
+      text-align: center;
+      transition: $transition;
+    }
+
+    &-subtitle{
+      position: absolute;
+      text-align: center;
+      bottom: -20px;
+      left: 16%;
+      display: block;
+      transition: $transition;
+    }
+
+    &:hover{
+      .box-title-order, .box-title-book{
+        top: 50px;
+      }
+
+      .box-subtitle{
+        display: block;
+        bottom: 30px;
+      }
+    }
+  }
+
+  .home-order{
+    background-image: url('../images/assets/pizza-1.jpg');
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  .home-book{
+    background-image: url('../images/assets/pizza-2.jpg');
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  .home-hours{
+    background-color: $color-main;
+    flex: 100%;
+    margin-top: 10px;
+  }
+}
+
+.comments-wrapper{
+  margin: 50px 5px;
+}
+
+.carousel{
+  min-height: 300px;
+}
+
+.item{
+  height: 80%;
+  
+  &-content{
+    position: relative;
+    height: 200px;
+
+    &-image{
+      position: absolute;
+      width: 35%;
+      height: 100%;
+      overflow: hidden;
+  
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-description{
+      padding: 0 0 0 40%;
+    }
+  }
+
+  img{
+    object-fit: cover;
+  }
+}
+
+.carousel .carousel-indicators li {
+  border-color: rgb(161, 161, 161);
+  background: rgb(161, 161, 161);
+}
+
+.carousel .carousel-indicators li.active {
+  border-color: rgba(0, 0, 0, 1);
+  background: rgba(0, 0, 0, 1);
+}
+
+.gallery-wrapper{
+  margin: 50px 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .box{
+    min-height: 200px;
+    flex: 0 0 32%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: $color-dark;
+    overflow: hidden;
+
+    img{
+      width: 100%;
+      height: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      transition: $transition;
+    }
+
+    &-icons{
+      @include center();
+    }
+
+    i {
+      display: none;
+      color: $color-light;
+      font-size: 24px;
+      transition: $transition;
+
+      &:last-child{
+        margin-left: 10px;
+      }
+    }
+
+    &:hover{      
+      img{
+        opacity: 0.5;
+      }
+
+      i{
+        display: inline-block;
+
+        &:hover{
+          cursor: pointer;
+          color: $color-main;
+        }
+      }
+    }
+  }
+
+}

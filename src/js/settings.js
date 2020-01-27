@@ -2,11 +2,13 @@
 
 export const select = {
   templateOf: {
+    homePage: '#template-home-widget', 
     menuProduct: '#template-menu-product',
     cartProduct: '#template-cart-product',
     bookingWidget: '#template-booking-widget',
   },
   containerOf: {
+    home: '.home-wrapper',
     menu: '#product-list',
     cart: '#cart',
     pages: '#pages',
@@ -16,6 +18,11 @@ export const select = {
     menuProducts: '#product-list > .product',
     menuProductsActive: '#product-list > .product.active',
     formInputs: 'input, select',
+  },
+  home: {
+    order: '.home-order',
+    bookTable: '.home-book',
+    buttons: '.box-button',
   },
   menuProduct: {
     clickable: '.product__header',
@@ -42,6 +49,7 @@ export const select = {
     },
   },
   cart: {
+    cartWrapper: '.cart',
     productList: '.cart__order-summary',
     toggleTrigger: '.cart__summary',
     totalNumber: `.cart__total-number`,
@@ -69,11 +77,12 @@ export const select = {
     starters: '[name="starter"]',
   },
   nav: {
+    navWrapper: '.main-nav',
     links: '.main-nav a',
   },
 };
 
-export const classNames = {
+export const classNames = {  
   menuProduct: {
     wrapperActive: 'active',
     imageVisible: 'active',
@@ -91,6 +100,8 @@ export const classNames = {
   },
   pages: {
     active: 'active',
+    home: 'home',
+    display: 'display-none',
   },
 };
 
@@ -127,6 +138,7 @@ export const settings = {
 };
 
 export const templates = {
+  homePage: Handlebars.compile(document.querySelector(select.templateOf.homePage).innerHTML),
   menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),

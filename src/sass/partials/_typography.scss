@@ -16,3 +16,30 @@
   font-weight: $font-bold;
   text-transform: uppercase;
 }
+
+.font-home{
+  margin: 0;
+  line-height: 1;
+  color: $color-light;
+  text-transform: uppercase;
+  font-family: $font-header;
+
+  &-bold{
+    font-size: 24px;
+    font-weight: $font-bold;
+  }
+
+  &-semibold{
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: $font-semibold;
+  }
+
+  &-light{
+    margin: 0;
+    color: $color-light;
+    font-size: $base-size;
+    font-weight: 100;
+  }
+}
+

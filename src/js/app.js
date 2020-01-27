@@ -2,6 +2,7 @@ import {settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import HomePage from './components/HomePage.js';
 
 const app = {
   initPages: function(){
@@ -42,6 +43,9 @@ const app = {
   activatePage: function(pageId){
     const thisApp = this;
 
+    const navWrapper = document.querySelector(select.nav.navWrapper);
+    const cartWrapper = document.querySelector(select.cart.cartWrapper);
+
     /* add class active to matching pages, remove from non-matching */
     for(let page of thisApp.pages){
       page.classList.toggle(classNames.pages.active, page.id == pageId);
@@ -52,6 +56,15 @@ const app = {
       link.classList.toggle(
         classNames.nav.active,
         link.getAttribute('href') == '#' + pageId);
+    }
+
+    /* show and hide nav and cart when on home page */
+    if(pageId == classNames.pages.home){
+      navWrapper.classList.add(classNames.pages.display);
+      cartWrapper.classList.add(classNames.pages.display);
+    }else{
+      navWrapper.classList.remove(classNames.pages.display);
+      cartWrapper.classList.remove(classNames.pages.display);
     }
   },
 
@@ -98,6 +111,19 @@ const app = {
     });
   },
 
+  initHome: function(){
+    const thisApp = this;
+    const homeElem = document.querySelector(select.containerOf.home);
+    
+    thisApp.homePage = new HomePage(homeElem);
+
+    thisApp.wrapper = document.querySelector(select.containerOf.home);
+    
+    thisApp.wrapper.addEventListener('buttonClicked', function(){
+      thisApp.activatePage(event.path[0].getAttribute('data-id'));
+    });
+  },
+
   initBooking: function(){
     const thisApp = this;
     const bookingElem = document.querySelector(select.containerOf.booking);
@@ -115,6 +141,7 @@ const app = {
       console.log('templates:', templates); */
     thisApp.initPages();
     thisApp.initData();
+    thisApp.initHome();
     thisApp.initCart();
     thisApp.initBooking();
   },
